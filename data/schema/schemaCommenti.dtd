@@ -1,0 +1,5 @@
+<!ELEMENT commenti (commento*)>
+<!ELEMENT commento (esercizio,utente,testo)>
+<!ELEMENT esercizio (#PCDATA)>
+<!ELEMENT utente (#PCDATA)>
+<!ELEMENT testo (#PCDATA)>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			targetNamespace="http://www.forzaecoraggio.it/plans"
+			xmlns="http://www.forzaecoraggio.it/plans"
+			xmlns:ex="http://www.forzaecoraggio.it/exercises"
+			elementFormDefault="qualified">
+
+	<xs:import namespace="http://www.forzaecoraggio.it/exercises" schemaLocation="schemaEsercizi.xsd" />
+
+	<xs:element name="piani">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="piano">
+					<xs:complexType>
+						<xs:sequence>
+                            <xs:element name="nome" type="xs:string" />
+							<xs:element name="utente" type="xs:string" />
+                            <xs:element name="esercizio" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="nomeEsercizio" 	type="ex:mixedType" />
+										<xs:element name="IDEsercizio"		type="xs:positiveInteger" />
+                                        <xs:element name="ripetizioni"		type="xs:string" />
+                                        <xs:element name="serie"			type="xs:string" />
+                                        <xs:element name="recupero"			type="xs:string" />
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+						</xs:sequence>
+						<xs:attribute name="id" type="xs:positiveInteger" use="required" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

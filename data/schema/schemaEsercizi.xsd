@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			targetNamespace="http://www.forzaecoraggio.it/exercises"
+			xmlns="http://www.forzaecoraggio.it/exercises"
+			elementFormDefault="qualified">
+	
+	<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd"/>
+	
+	<xs:element name="gruppiMuscolari" type="groupsType" /> <!-- Lista dei gruppi muscolari.  -->
+
+	<xs:complexType name="groupsType">
+		<xs:sequence maxOccurs="unbounded">
+			<xs:element name="gruppoMuscolare" type="groupType" /> <!-- Lista degli esercizi divisi per gruppo muscolare -->
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="groupType">
+		<xs:sequence>
+			<xs:element name="nomeGruppo" type="xs:string" />
+			<xs:element name="esercizio" maxOccurs="unbounded"> <!-- Esercizio -->
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="nomeEsercizio" type="mixedType" /> <!-- Nome (possibile contenuto misto) -->
+						<xs:element name="spiegazione" type="mixedType" /> <!-- Spiegazione (possibile contenuto misto) -->
+						<xs:element name="respirazione" type="mixedType" /> <!-- Respirazione (possibile contenuto misto) -->
+						<xs:element name="errori" type="errorsType" minOccurs="0"/> <!-- Lista di errori -->
+						<xs:element name="muscoliCoinvolti" type="musclesType" /> <!-- Muscoli coinvolti nell'esercizio -->
+						<xs:element name="immagine" type="xs:string" /> <!-- Nome dell'immagine di spiegazione -->
+						<xs:element name="difficolta" type="difficultyType" /> <!-- difficoltà dell'esercizio -->
+					</xs:sequence>
+					<xs:attribute name="id" type="xs:positiveInteger" use="required" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="mixedType" mixed="true"> <!-- Elemento dal contenuto misto: testo + span + abbr  -->
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="span"> <!-- Span per permettere il cambio di linguaggio -->
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute ref="xml:lang" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="abbr"> <!-- Abbreviazione -->
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="title" type="xs:string" />
+							<xs:attribute ref="xml:lang" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	
+	<xs:complexType name="errorsType">
+		<xs:sequence maxOccurs="unbounded">
+			<xs:element name="errore" type="mixedType" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="musclesType">
+		<xs:sequence>
+			<xs:element name="principali" type="muscleType" />
+			<xs:element name="secondari" type="muscleType" minOccurs="0" />
+			<xs:element name="accessori" type="muscleType" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="muscleType">
+		<xs:sequence maxOccurs="unbounded">
+			<xs:element name="muscolo" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:simpleType name="difficultyType">
+		<xs:restriction base="xs:string"> <!-- Possibilità di valori (usati per link all'immagine della difficoltà) -->
+			<xs:enumeration value="facile"/>
+			<xs:enumeration value="medio"/>
+			<xs:enumeration value="difficile"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
